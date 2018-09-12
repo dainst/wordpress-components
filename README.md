@@ -29,12 +29,12 @@ repository's root directory.
 All templates and plugins should be mounted as volumes by editing the _docker-compose.yml_. The storytelling 
 plugin is mounted as follows:
 
-``
+```
 (..)
     volumes:
     - ./plugins/storytelling:/var/www/html/wp-content/plugins/eagle-storytelling-application
 (..)
-``
+```
 
 The first path up to the `:` is the path to the plugin within the repository's directory structure. The second part 
 declares where Docker is supposed to mount all contents of that directory within the Wordpress container.
