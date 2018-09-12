@@ -1,0 +1,3 @@
+[submodule "plugins/storytelling"]
+	path = plugins/storytelling
+	url = https://github.com/dainst/wordpress-storytelling
