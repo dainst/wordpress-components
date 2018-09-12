@@ -20,15 +20,14 @@ provided.
 
 Some useful _docker-compose_ commands:
 1. Hit `CTRL+C` to stop the running containers, or run `docker-compose stop` in a new terminal window within the 
-repositories root directory.
-2. To restart stopped containers run `docker-compose start` within the repositories root directory.
-3. If you want to reset everything run `docker-compose down -v` to delete all containers (and subsequently all changes 
-in the Wordpress instance). 
+repository's root directory.
+2. To restart stopped containers run `docker-compose start` within the repository's root directory.
+3. If you want to reset everything run `docker-compose down -v` to delete all containers (and subsequently the existing Wordpress instance). 
 
 ## Adding new templates or plugins to the Wordpress instance
 
-All templates and plugins should be mounted as volumes by editing the _docker-compose.yml_. The story telling 
-application is mounted as follows:
+All templates and plugins should be mounted as volumes by editing the _docker-compose.yml_. The storytelling 
+plugin is mounted as follows:
 
 ``
 (..)
@@ -37,8 +36,8 @@ application is mounted as follows:
 (..)
 ``
 
-The first path up to the `:` is the path to the plugin within the repositories directory structure. The second part 
-declares where Docker is supposed to mount all contents of the plugin directory within the Wordpress container.
+The first path up to the `:` is the path to the plugin within the repository's directory structure. The second part 
+declares where Docker is supposed to mount all contents of that directory within the Wordpress container.
 
 All changes you make to the files in `./plugins/storytelling` are directly visible within your running Wordpress 
 container.
