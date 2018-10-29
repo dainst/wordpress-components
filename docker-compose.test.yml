@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+   db:
+     volumes:
+       - data:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpressuser
+       MYSQL_PASSWORD: wordpresspass
+
+   cms:
+     volumes:
+       - ./plugins/storytelling:/var/www/html/wp-content/plugins/eagle-storytelling-application
+     ports:
+       - "80:80"
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpressuser
+       WORDPRESS_DB_PASSWORD: wordpresspass
+
+volumes:
+   data:
+

@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+   db:
+     volumes:
+       - data:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+       MYSQL_DATABASE: ${DB_INST}
+       MYSQL_USER: ${DB_USER}
+       MYSQL_PASSWORD: ${DB_PASS}
+
+   cms:
+     volumes:
+       - ./plugins/storytelling:/var/www/html/wp-content/plugins/eagle-storytelling-application
+     ports:
+       - "81:80"
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: ${DB_USER}
+       WORDPRESS_DB_PASSWORD: ${DB_PASS}
+
+volumes:
+   data:
+
