@@ -2,7 +2,6 @@ version: '3.4'
 
 services:
    db:
-     build: .
      volumes:
        - data:/var/lib/mysql
      environment:
@@ -12,6 +11,7 @@ services:
        MYSQL_PASSWORD: ${DB_PASS}
 
    cms:
+     build: .
      volumes:
        - ./plugins/storytelling:/var/www/html/wp-content/plugins/eagle-storytelling-application
      ports:
