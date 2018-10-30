@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
    db:
+     build: .
      volumes:
        - data:/var/lib/mysql
      environment:

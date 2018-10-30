@@ -11,8 +11,6 @@ services:
        MYSQL_PASSWORD: wordpresspass
 
    cms:
-     volumes:
-       - ./plugins/storytelling:/var/www/html/wp-content/plugins/eagle-storytelling-application
      ports:
        - "80:80"
      environment:

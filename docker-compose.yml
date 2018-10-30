@@ -5,7 +5,7 @@ services:
      image: mysql:5.7
 
    cms:
-     image: wordpress:4.9.8-php7.2-apache
+     image: dainst/wordpress-components:latest
      links:
        - db
 
