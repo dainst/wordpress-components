@@ -1,7 +1,8 @@
-version: '3.4'
+version: '3.7'
 
 services:
    db:
+     restart: always
      volumes:
        - data:/var/lib/mysql
      environment:
@@ -11,6 +12,7 @@ services:
        MYSQL_PASSWORD: wordpresspass
 
    cms:
+     restart: always
      ports:
        - "80:80"
      environment:
