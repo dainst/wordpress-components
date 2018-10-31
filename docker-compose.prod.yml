@@ -1,25 +1,24 @@
 version: '3.7'
 
 services:
-   db:
-     restart: always
-     volumes:
-       - data:/var/lib/mysql
-     environment:
-       MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: wordpress
-       MYSQL_USER: wordpressuser
-       MYSQL_PASSWORD: wordpresspass
+  db:
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpressuser
+      MYSQL_PASSWORD: wordpresspass
 
-   cms:
-     restart: always
-     ports:
-       - "80:80"
-     environment:
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_USER: wordpressuser
-       WORDPRESS_DB_PASSWORD: wordpresspass
+  cms:
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpressuser
+      WORDPRESS_DB_PASSWORD: wordpresspass
 
 volumes:
-   data:
-
+  data:

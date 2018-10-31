@@ -1,11 +1,10 @@
 version: '3.7'
 
 services:
-   db:
-     image: mysql:5.7
+  db:
+    image: mysql:5.7
 
-   cms:
-     image: dainst/wordpress-components:latest
-     links:
-       - db
-
+  cms:
+    image: dainst/wordpress-components:latest
+    links:
+      - db
