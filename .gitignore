@@ -1,5 +1,13 @@
 # Docker related configuration
 .env
+
+# ignore preinstalled wordpress plugins
 plugins/akismet/
 plugins/hello.php
 plugins/index.php
+
+# ignore preinstalled wordpress themes
+themes/index.php
+themes/twentyfifteen/
+themes/twentyseventeen/
+themes/twentysixteen/
