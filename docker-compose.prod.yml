@@ -4,7 +4,7 @@ services:
   db:
     restart: always
     volumes:
-      - data:/var/lib/mysql
+      - wordpress_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress
@@ -20,5 +20,16 @@ services:
       WORDPRESS_DB_USER: wordpressuser
       WORDPRESS_DB_PASSWORD: wordpresspass
 
+  portainer:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+    - 9000:9000
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - portainer_data:/data
+
 volumes:
-  data:
+  wordpress_data:
+  portainer_data:
