@@ -18,7 +18,7 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ./plugins:/var/www/html/wp-content/plugins
-      - ./themes/shap-theme:/var/www/html/wp-content/themes/shap-theme
+      - ./themes:/var/www/html/wp-content/themes
     ports:
       - "81:80"
     environment:
