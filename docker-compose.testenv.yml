@@ -5,10 +5,15 @@ services:
     volumes:
       - wordpress_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpressuser
-      MYSQL_PASSWORD: wordpresspass
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE_FILE: /run/secrets/db_instance
+      MYSQL_USER_FILE: /run/secrets/db_user
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_instance
+      - db_user
+      - db_password
     deploy:
       restart_policy:
         condition: any
@@ -20,9 +25,13 @@ services:
     volumes:
       - wordpress_files:/var/www/html
     environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpressuser
-      WORDPRESS_DB_PASSWORD: wordpresspass
+      WORDPRESS_DB_HOST_FILE: /run/secrets/db_host
+      WORDPRESS_DB_USER_FILE: /run/secrets/db_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_host
+      - db_user
+      - db_password
     deploy:
       restart_policy:
         condition: any
@@ -53,6 +62,18 @@ services:
       restart_policy:
         condition: any
         delay: 0s
+
+secrets:
+  db_root_password:
+    file: db_root_password.txt
+  db_instance:
+    file: db_instance.txt
+  db_user:
+    file: db_user.txt
+  db_password:
+    file: db_password.txt
+  db_host:
+    file: db_host.txt
 
 volumes:
   wordpress_files:
