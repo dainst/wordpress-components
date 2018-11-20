@@ -1,5 +1,10 @@
 # Docker related configuration
 .env
+db_root_password.txt
+db_instance.txt
+db_user.txt
+db_password.txt
+db_host.txt
 
 # ignore preinstalled wordpress plugins
 plugins/akismet/

@@ -1,0 +1,147 @@
+version: '3.7'
+
+services:
+  db:
+    volumes:
+      - wordpress_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE_FILE: /run/secrets/db_instance
+      MYSQL_USER_FILE: /run/secrets/db_user
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_instance
+      - db_user
+      - db_password
+    deploy:
+      labels:
+        traefik.enable: "false"
+      restart_policy:
+        condition: any
+        delay: 0s
+    networks:
+      - backend
+
+  cms:
+    volumes:
+      - wordpress_files:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST_FILE: /run/secrets/db_host
+      WORDPRESS_DB_USER_FILE: /run/secrets/db_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_host
+      - db_user
+      - db_password
+    deploy:
+      labels:
+        traefik.enable: "true"
+        traefik.frontend.rule: "PathPrefixStrip:/"
+        traefik.backend: cms
+        traefik.port: 80
+        traefik.docker.network: frontend
+      restart_policy:
+        condition: any
+        delay: 0s
+    networks:
+      - backend
+      - frontend
+
+  portainer:
+    image: portainer/portainer:latest
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    deploy:
+      labels:
+        traefik.enable: "true"
+        traefik.frontend.rule: "PathPrefixStrip:/portainer"
+        traefik.backend: portainer
+        traefik.port: 9000
+        traefik.docker.network: frontend
+      mode: global
+      placement:
+        constraints:
+        - node.role == manager
+      restart_policy:
+        condition: any
+        delay: 0s
+    networks:
+      - backend
+      - frontend
+
+  shepherd:
+    image: mazzolino/shepherd:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      labels:
+        traefik.enable: "false"
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: any
+        delay: 0s
+    networks:
+      - backend
+
+  reverse-proxy:
+    image: traefik:latest
+    command: --debug
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - frontend
+    deploy:
+      labels:
+        traefik.enable: "false"
+        traefik.port: 8080
+        traefik.docker.network: frontend
+      mode: global
+      placement:
+        constraints: [node.role==manager]
+      restart_policy:
+        condition: any
+        delay: 0s
+    configs:
+    - source: traefik_toml
+      target: /etc/traefik/traefik.toml
+    - source: traefik_auth
+      target: /etc/traefik/traefik.htdigest
+
+configs:
+  traefik_toml:
+    file: ./traefik.toml
+  traefik_auth:
+    file: ./traefik.htdigest
+
+secrets:
+  db_root_password:
+    file: db_root_password.txt
+  db_instance:
+    file: db_instance.txt
+  db_user:
+    file: db_user.txt
+  db_password:
+    file: db_password.txt
+  db_host:
+    file: db_host.txt
+
+volumes:
+  wordpress_files:
+  wordpress_data:
+  portainer_data:
+
+networks:
+  backend:
+    name: backend
+  frontend:
+    name: frontend
