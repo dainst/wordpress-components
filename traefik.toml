@@ -15,6 +15,8 @@ defaultEntryPoints = ["http"]
 #      keyFile = "examples/traefik.key"
   [entryPoints.traefik]
   address = ":8080"
+  [entryPoints.traefik.auth.digest]
+  usersFile = "/etc/traefik/traefik.htdigest"
 
 # API definition
 # Warning: Enabling API will expose Traefik's configuration.

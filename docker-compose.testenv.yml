@@ -112,12 +112,16 @@ services:
         condition: any
         delay: 0s
     configs:
-    - source: traefik_config
-      target: /etc/traefik/
+    - source: traefik_toml
+      target: /etc/traefik/traefik.toml
+    - source: traefik_auth
+      target: /etc/traefik/traefik.htdigest
 
 configs:
-  traefik_config:
+  traefik_toml:
     file: ./traefik.toml
+  traefik_auth:
+    file: ./traefik.htdigest
 
 secrets:
   db_root_password:
