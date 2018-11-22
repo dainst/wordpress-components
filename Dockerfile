@@ -59,6 +59,8 @@ RUN set -ex; \
 	#tar -xzf wordpress.tar.gz -C /usr/src/; \
 	tar -xzf wordpress.tar.gz -C /var/www/html --strip-components=1; \
 	rm wordpress.tar.gz; \
+	rm -r /var/www/html/wp-content/plugins/akismet; \
+	rm /var/www/html/wp-content/plugins/hello.php; \
 	#chown -R www-data:www-data /usr/src/wordpress
 	chown -R www-data:www-data /var/www/html
 
