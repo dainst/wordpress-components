@@ -97,6 +97,10 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		WORDPRESS_TABLE_PREFIX
 		WORDPRESS_DEBUG
 		WORDPRESS_CONFIG_EXTRA
+		WORDPRESS_SITE_URL
+		WORDPRESS_ADMIN_USER
+		WORDPRESS_ADMIN_PASSWORD
+		WORDPRESS_ADMIN_EMAIL
 	)
 	haveConfig=
 	for e in "${envs[@]}"; do
@@ -259,6 +263,38 @@ if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_strin
 $mysql->close();
 EOPHP
 	fi
+
+    # Run installation (create DB etc. if not done)
+    if ! $(wp core --allow-root is-installed); then
+        wp core --allow-root install --url="$WORDPRESS_SITE_URL" \
+                                     --title="$WORDPRESS_SITE_TITLE" \
+                                     --admin_user="$WORDPRESS_ADMIN_USER" \
+                                     --admin_email="$WORDPRESS_ADMIN_EMAIL" \
+                                     --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
+                                     --skip-email
+
+        # Install language packs
+        wp language --allow-root core install de_DE ar
+
+        # Activate all plugins
+        wp plugin --allow-root activate --all
+
+        # Activate theme
+        wp theme --allow-root activate shap-theme
+
+        # Switch to german language
+        wp site --allow-root switch-language de_DE
+
+        # Change base settings
+        wp option --allow-root update blogdescription ''
+        wp option --allow-root update timezone_string Europe/Berlin
+        wp option --allow-root update date_format 'j. F Y'
+        wp option --allow-root update time_format G:i
+    fi
+
+    # Update installed languages
+    wp language --allow-root core update
+    wp language --allow-root plugin update --all
 
 	# now that we're definitely done writing configuration, let's clear out the relevant envrionment variables (so that stray "phpinfo()" calls don't leak secrets from our code)
 	for e in "${envs[@]}"; do

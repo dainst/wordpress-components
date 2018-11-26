@@ -13,18 +13,21 @@ services:
       MYSQL_PASSWORD: ${DB_PASS}
 
   cms:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    build: .
     volumes:
       - ./plugins:/var/www/html/wp-content/plugins
       - ./themes:/var/www/html/wp-content/themes
     ports:
-      - "81:80"
+      - "${WORDPRESS_PORT}:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: ${DB_USER}
       WORDPRESS_DB_PASSWORD: ${DB_PASS}
+      WORDPRESS_SITE_URL: "localhost:${WORDPRESS_PORT}"
+      WORDPRESS_SITE_TITLE: ${WORDPRESS_SITE_TITLE}
+      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
+      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
+      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
 
 volumes:
    data:
