@@ -5,6 +5,10 @@ db_instance.txt
 db_user.txt
 db_password.txt
 db_host.txt
+wp_url.txt
+wp_admin.txt
+wp_admin_password.txt
+wp_admin_email.txt
 
 # ignore preinstalled wordpress plugins
 plugins/akismet/

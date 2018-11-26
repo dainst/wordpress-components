@@ -61,6 +61,7 @@ RUN set -ex; \
 	rm wordpress.tar.gz; \
 	rm -r /var/www/html/wp-content/plugins/akismet; \
 	rm /var/www/html/wp-content/plugins/hello.php; \
+	rm -r /var/www/html/wp-content/themes/twenty*; \
 	#chown -R www-data:www-data /usr/src/wordpress
 	chown -R www-data:www-data /var/www/html
 
@@ -71,8 +72,9 @@ COPY --chown=www-data:www-data .htaccess /var/www/html/
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
 
-# Add custom content
-RUN apt-get update && apt-get install -y nano
+# Custom content
+# Tools
+RUN apt-get update && apt-get install -y nano less
 
 # WP Config
 RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
