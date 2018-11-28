@@ -59,81 +59,6 @@ services:
       - backend
       - frontend
 
-  portainer:
-    image: portainer/portainer:latest
-    command: -H unix:///var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    deploy:
-      labels:
-        traefik.enable: "true"
-        traefik.frontend.rule: "PathPrefixStrip:/portainer"
-        traefik.backend: portainer
-        traefik.port: 9000
-        traefik.docker.network: frontend
-      mode: global
-      placement:
-        constraints:
-        - node.role == manager
-      restart_policy:
-        condition: any
-        delay: 0s
-    networks:
-      - backend
-      - frontend
-
-  shepherd:
-    image: mazzolino/shepherd:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    deploy:
-      labels:
-        traefik.enable: "false"
-      mode: global
-      placement:
-        constraints:
-          - node.role == manager
-      restart_policy:
-        condition: any
-        delay: 0s
-    networks:
-      - backend
-
-  reverse-proxy:
-    image: traefik:latest
-    command: --debug
-    ports:
-      - "80:80"
-      - "8080:8080"
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - frontend
-    deploy:
-      labels:
-        traefik.enable: "false"
-        traefik.port: 8080
-        traefik.docker.network: frontend
-      mode: global
-      placement:
-        constraints: [node.role==manager]
-      restart_policy:
-        condition: any
-        delay: 0s
-    configs:
-    - source: traefik_toml
-      target: /etc/traefik/traefik.toml
-    - source: traefik_auth
-      target: /etc/traefik/traefik.htdigest
-
-configs:
-  traefik_toml:
-    file: ./traefik.toml
-  traefik_auth:
-    file: ./traefik.htdigest
-
 secrets:
   db_root_password:
     file: db_root_password.txt
@@ -157,10 +82,11 @@ secrets:
 volumes:
   wordpress_files:
   wordpress_data:
-  portainer_data:
 
 networks:
   backend:
     name: backend
+    external: true
   frontend:
     name: frontend
+    external: true
