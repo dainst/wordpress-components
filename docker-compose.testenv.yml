@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   db:
+    ports:
+      - "3307:3306"
     volumes:
       - wordpress_data:/var/lib/mysql
     environment:
@@ -16,7 +18,7 @@ services:
       - db_password
     deploy:
       labels:
-        traefik.enable: "false"
+        - "traefik.enable=false"
       restart_policy:
         condition: any
         delay: 0s
@@ -47,11 +49,11 @@ services:
       - wp_admin_email
     deploy:
       labels:
-        traefik.enable: "true"
-        traefik.frontend.rule: "PathPrefixStrip:/"
-        traefik.backend: cms
-        traefik.port: 80
-        traefik.docker.network: frontend
+        - "traefik.enable=true"
+        - "traefik.frontend.rule=Host:shap.test.idai.world"
+        #- "traefik.frontend.rule=Host:shap.localhost"
+        - "traefik.passHostHeader=true"
+        - "traefik.port=80"
       restart_policy:
         condition: any
         delay: 0s
