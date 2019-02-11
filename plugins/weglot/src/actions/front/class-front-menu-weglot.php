@@ -1,0 +1,186 @@
+<?php
+
+namespace WeglotWP\Actions\Front;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use WeglotWP\Models\Hooks_Interface_Weglot;
+use WeglotWP\Helpers\Helper_Pages_Weglot;
+
+/**
+ *
+ * @since 2.0
+ *
+ */
+class Front_Menu_Weglot implements Hooks_Interface_Weglot {
+
+	/**
+	 * @since 2.4.0
+	 */
+	public function __construct() {
+		$this->option_services            = weglot_get_service( 'Option_Service_Weglot' );
+		$this->button_services            = weglot_get_service( 'Button_Service_Weglot' );
+		$this->custom_url_services        = weglot_get_service( 'Custom_Url_Service_Weglot' );
+		$this->request_url_services       = weglot_get_service( 'Request_Url_Service_Weglot' );
+		$this->private_language_services  = weglot_get_service( 'Private_Language_Service_Weglot' );
+	}
+
+	/**
+	 * @see Hooks_Interface_Weglot
+	 *
+	 * @since 2.4.0
+	 * @return void
+	 */
+	public function hooks() {
+		if ( is_admin() ) {
+			return;
+		}
+
+		if ( ! $this->option_services->get_option( 'allowed' ) ) {
+			return;
+		}
+
+		add_filter( 'wp_get_nav_menu_items', [ $this, 'weglot_wp_get_nav_menu_items' ], 20 );
+		add_filter( 'nav_menu_link_attributes', [ $this, 'add_nav_menu_link_attributes' ], 10, 2 );
+
+		if ( $this->option_services->get_option( 'is_menu' ) ) {
+			add_filter( 'wp_nav_menu_items', [ $this, 'weglot_fallback_menu' ] );
+		}
+	}
+
+	/**
+	 * @since 2.4.0
+	 * @param string $items
+	 * @return string
+	 */
+	public function weglot_fallback_menu( $items ) {
+		$button = $this->button_services->get_html();
+		$items .= $button;
+
+		return $items;
+	}
+
+	/**
+	 * @since 2.4.0
+	 * @param array $items
+	 * @return array
+	 */
+	public function weglot_wp_get_nav_menu_items( $items ) {
+		if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() || $this->private_language_services->private_mode_for_all_languages() ) {
+			foreach ( $items as $key => $item ) {
+				if ( 'weglot-switcher' !== $item->post_name ) {
+					continue;
+				}
+				unset( $items[ $key ] );
+			}
+
+			return $items;
+		}
+
+		// Prevent customizer
+		if ( doing_action( 'customize_register' ) ) {
+			return $items;
+		}
+
+		$new_items = [];
+		$offset    = 0;
+
+		foreach ( $items as $key => $item ) {
+			if ( strpos( $item->post_name, 'weglot-switcher' ) === false ) {
+				$item->menu_order += $offset;
+				$new_items[] = $item;
+				continue;
+			}
+
+			$i = 0;
+
+			$classes          = [ 'weglot-lang', 'menu-item-weglot' ];
+			$with_flags       = $this->option_services->get_option( 'with_flags' );
+			$options          = $this->option_services->get_option( 'menu_switcher' );
+
+			if ( ! $options['hide_current'] && $with_flags ) {
+				$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
+			}
+
+			$languages        = weglot_get_languages_configured();
+			$current_language = $this->request_url_services->get_current_language_entry();
+
+			if ( $options['dropdown'] ) {
+				$title = __( 'Choose your language', 'weglot' );
+				if ( ! $options['hide_current'] ) {
+					$title      = $this->button_services->get_name_with_language_entry( $current_language );
+				}
+				$item->title      = apply_filters( 'weglot_menu_parent_menu_item_title', $title );
+				$item->attr_title = $current_language->getLocalName();
+				$item->classes    = array_merge( [ 'weglot-parent-menu-item' ], $classes, [ $current_language->getIso639() ] );
+				$new_items[]      = $item;
+				$offset++;
+			}
+
+			foreach ( $languages as $language ) {
+				if ( $this->private_language_services->is_active_private_mode_for_lang( $language->getIso639() ) ) {
+					continue;
+				}
+
+				if (
+					( $options['dropdown'] && $current_language->getIso639() === $language->getIso639() ) ||
+					( $options['hide_current'] && $current_language->getIso639() === $language->getIso639() ) ) {
+					continue;
+				}
+
+				$add_classes = [];
+				if ( $options['hide_current'] && $with_flags ) { // Just for children without flag classes
+					$classes   = array_merge( $classes, explode( ' ', $this->button_services->get_flag_class() ) );
+				}
+
+				if ( $with_flags ) {
+					$add_classes[] = $language->getIso639();
+				}
+
+				$language_item             = clone $item;
+				$language_item->ID         = 'weglot-' . $item->ID . '-' . $language->getIso639();
+				$language_item->title      = $this->button_services->get_name_with_language_entry( $language );
+				$language_item->attr_title = $language->getLocalName();
+				$language_item->url        = $this->custom_url_services->get_link_button_with_key_code( $language->getIso639() );
+				;
+				$language_item->lang       = $language->getIso639();
+				$language_item->classes    = array_merge( $classes, $add_classes );
+				$language_item->menu_order += $offset + $i++;
+				if ( $options['dropdown'] ) {
+					$language_item->menu_item_parent = $item->db_id;
+					$language_item->db_id            = 0;
+				}
+
+				$new_items[] = $language_item;
+			}
+			$offset += $i - 1;
+		}
+		return $new_items;
+	}
+
+	/**
+	 * @since 2.0
+	 * @version 2.4.0
+	 * @see nav_menu_link_attributes
+	 * @param array $attrs
+	 * @param object $item
+	 * @return array
+	 */
+	public function add_nav_menu_link_attributes( $attrs, $item ) {
+		$str              = 'weglot-switcher';
+		if ( strpos( $item->post_name, $str ) !== false ) {
+			$current_language = $this->request_url_services->get_current_language();
+			if ( ! $this->request_url_services->is_translatable_url() || ! weglot_current_url_is_eligible() ) {
+				$attrs['style'] = 'display:none';
+				return $attrs;
+			}
+
+			$attrs['data-wg-notranslate'] = 'true';
+		}
+
+		return $attrs;
+	}
+}
+
