@@ -1,6 +1,3 @@
 [submodule "themes/shap-theme"]
 	path = themes/shap-theme
 	url = https://github.com/dainst/wordpress-shap-theme.git
-[submodule "plugins/wordpress-storytelling"]
-	path = plugins/wordpress-storytelling
-	url = https://github.com/dainst/wordpress-storytelling.git
