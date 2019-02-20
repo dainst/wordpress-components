@@ -7,15 +7,15 @@ services:
     volumes:
       - wordpress_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-      MYSQL_DATABASE_FILE: /run/secrets/db_instance
-      MYSQL_USER_FILE: /run/secrets/db_user
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/shap_db_root_password
+      MYSQL_DATABASE_FILE: /run/secrets/shap_db_instance
+      MYSQL_USER_FILE: /run/secrets/shap_db_user
+      MYSQL_PASSWORD_FILE: /run/secrets/shap_db_password
     secrets:
-      - db_root_password
-      - db_instance
-      - db_user
-      - db_password
+      - shap_db_root_password
+      - shap_db_instance
+      - shap_db_user
+      - shap_db_password
     deploy:
       labels:
         - "traefik.enable=false"
@@ -27,47 +27,47 @@ services:
     #volumes:
       #- wordpress_files:/var/www/html/wp-content
     environment:
-      WORDPRESS_DB_HOST_FILE: /run/secrets/db_host
-      WORDPRESS_DB_USER_FILE: /run/secrets/db_user
-      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+      WORDPRESS_DB_HOST_FILE: /run/secrets/shap_db_host
+      WORDPRESS_DB_USER_FILE: /run/secrets/shap_db_user
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/shap_db_password
       WORDPRESS_CONFIG_EXTRA: "define( 'DISALLOW_FILE_MODS', true );"
       #WORDPRESS_CONFIG_EXTRA: "define( 'AUTOMATIC_UPDATER_DISABLED', true );"
-      WORDPRESS_SITE_URL_FILE: /run/secrets/wp_url
+      WORDPRESS_SITE_URL_FILE: /run/secrets/shap_wp_url
       WORDPRESS_SITE_TITLE: "Syrian Heritage Archive Project"
-      WORDPRESS_ADMIN_USER_FILE: /run/secrets/wp_admin
-      WORDPRESS_ADMIN_PASSWORD_FILE: /run/secrets/wp_admin_password
-      WORDPRESS_ADMIN_EMAIL_FILE: /run/secrets/wp_admin_email
+      WORDPRESS_ADMIN_USER_FILE: /run/secrets/shap_wp_admin
+      WORDPRESS_ADMIN_PASSWORD_FILE: /run/secrets/shap_wp_admin_password
+      WORDPRESS_ADMIN_EMAIL_FILE: /run/secrets/shap_wp_admin_email
     secrets:
-      - db_host
-      - db_user
-      - db_password
-      - wp_url
-      - wp_admin
-      - wp_admin_password
-      - wp_admin_email
+      - shap_db_host
+      - shap_db_user
+      - shap_db_password
+      - shap_wp_url
+      - shap_wp_admin
+      - shap_wp_admin_password
+      - shap_wp_admin_email
     deploy:
       restart_policy:
         condition: any
         delay: 0s
 
 secrets:
-  db_root_password:
+  shap_db_root_password:
     external: true
-  db_instance:
+  shap_db_instance:
     external: true
-  db_user:
+  shap_db_user:
     external: true
-  db_password:
+  shap_db_password:
     external: true
-  db_host:
+  shap_db_host:
     external: true
-  wp_url:
+  shap_wp_url:
     external: true
-  wp_admin:
+  shap_wp_admin:
     external: true
-  wp_admin_password:
+  shap_wp_admin_password:
     external: true
-  wp_admin_email:
+  shap_wp_admin_email:
     external: true
 
 volumes:
