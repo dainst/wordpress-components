@@ -22,8 +22,6 @@ services:
       restart_policy:
         condition: any
         delay: 0s
-    networks:
-      - backend
 
   cms:
     #volumes:
@@ -48,18 +46,9 @@ services:
       - wp_admin_password
       - wp_admin_email
     deploy:
-      labels:
-        - "traefik.enable=true"
-        - "traefik.frontend.rule=Host:shap.test.idai.world"
-        #- "traefik.frontend.rule=Host:shap.localhost"
-        - "traefik.passHostHeader=true"
-        - "traefik.port=80"
       restart_policy:
         condition: any
         delay: 0s
-    networks:
-      - backend
-      - frontend
 
 secrets:
   db_root_password:
@@ -84,11 +73,3 @@ secrets:
 volumes:
   wordpress_files:
   wordpress_data:
-
-networks:
-  backend:
-    name: backend
-    external: true
-  frontend:
-    name: frontend
-    external: true
