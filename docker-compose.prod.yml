@@ -29,6 +29,7 @@ services:
     environment:
       WORDPRESS_DB_HOST_FILE: /run/secrets/shap_db_host
       WORDPRESS_DB_USER_FILE: /run/secrets/shap_db_user
+      WORDPRESS_DB_NAME_FILE: /run/secrets/shap_db_instance
       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/shap_db_password
       WORDPRESS_CONFIG_EXTRA: "define( 'DISALLOW_FILE_MODS', true );"
       #WORDPRESS_CONFIG_EXTRA: "define( 'AUTOMATIC_UPDATER_DISABLED', true );"
