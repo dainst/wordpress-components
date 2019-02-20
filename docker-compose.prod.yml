@@ -17,8 +17,6 @@ services:
       - shap_db_user
       - shap_db_password
     deploy:
-      labels:
-        - "traefik.enable=false"
       restart_policy:
         condition: any
         delay: 0s
