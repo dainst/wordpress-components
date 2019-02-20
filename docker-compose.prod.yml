@@ -7,7 +7,8 @@ services:
     volumes:
       - wordpress_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_ROOT_PASSWORD_
+      : /run/secrets/db_root_password
       MYSQL_DATABASE_FILE: /run/secrets/db_instance
       MYSQL_USER_FILE: /run/secrets/db_user
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
@@ -52,23 +53,23 @@ services:
 
 secrets:
   db_root_password:
-    file: ./secrets/db_root_password.txt
+    external: true
   db_instance:
-    file: ./secrets/db_instance.txt
+    external: true
   db_user:
-    file: ./secrets/db_user.txt
+    external: true
   db_password:
-    file: ./secrets/db_password.txt
+    external: true
   db_host:
-    file: ./secrets/db_host.txt
+    external: true
   wp_url:
-    file: ./secrets/wp_url.txt
+    external: true
   wp_admin:
-    file: ./secrets/wp_admin.txt
+    external: true
   wp_admin_password:
-    file: ./secrets/wp_admin_password.txt
+    external: true
   wp_admin_email:
-    file: ./secrets/wp_admin_email.txt
+    external: true
 
 volumes:
   wordpress_files:
