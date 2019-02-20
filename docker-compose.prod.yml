@@ -7,8 +7,7 @@ services:
     volumes:
       - wordpress_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD_
-      : /run/secrets/db_root_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_DATABASE_FILE: /run/secrets/db_instance
       MYSQL_USER_FILE: /run/secrets/db_user
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
