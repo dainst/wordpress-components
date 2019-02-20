@@ -46,6 +46,7 @@ services:
       - shap_wp_admin
       - shap_wp_admin_password
       - shap_wp_admin_email
+      - shap_db_instance
     deploy:
       restart_policy:
         condition: any
