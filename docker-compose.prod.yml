@@ -75,5 +75,5 @@ secrets:
 volumes:
   wordpress_uploads:
     external:
-      name: shap_wordpress_uploads
+      name: shap_wordpress_uploads_archaeocloud
   wordpress_data:
