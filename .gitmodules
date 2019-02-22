@@ -1,3 +1,6 @@
 [submodule "themes/shap-theme"]
 	path = themes/shap-theme
 	url = https://github.com/dainst/wordpress-shap-theme.git
+[submodule "plugins/shap-importer"]
+	path = plugins/shap-importer
+	url = https://github.com/dainst/wordpress-sha--importer
