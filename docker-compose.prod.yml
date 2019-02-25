@@ -8,14 +8,12 @@ services:
     volumes:
       - wordpress_data:/var/lib/mysql
     environment:
+      MYSQL_DATABASE: shap_wp
+      MYSQL_USER: shap
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/shap_db_root_password
-      MYSQL_DATABASE_FILE: /run/secrets/shap_db_instance
-      MYSQL_USER_FILE: /run/secrets/shap_db_user
       MYSQL_PASSWORD_FILE: /run/secrets/shap_db_password
     secrets:
       - shap_db_root_password
-      - shap_db_instance
-      - shap_db_user
       - shap_db_password
     deploy:
       restart_policy:
@@ -27,26 +25,19 @@ services:
     volumes:
       - wordpress_uploads:/var/www/html/wp-content/uploads
     environment:
-      WORDPRESS_DB_HOST_FILE: /run/secrets/shap_db_host
-      WORDPRESS_DB_USER_FILE: /run/secrets/shap_db_user
-      WORDPRESS_DB_NAME_FILE: /run/secrets/shap_db_instance
+      WORDPRESS_DB_HOST: shap_db
+      WORDPRESS_DB_USER: shap
+      WORDPRESS_DB_NAME: shap_wp
       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/shap_db_password
       WORDPRESS_CONFIG_EXTRA: "define( 'DISALLOW_FILE_MODS', true );"
-      #WORDPRESS_CONFIG_EXTRA: "define( 'AUTOMATIC_UPDATER_DISABLED', true );"
-      WORDPRESS_SITE_URL_FILE: /run/secrets/shap_wp_url
+      WORDPRESS_SITE_URL: shap.idai.world
       WORDPRESS_SITE_TITLE: "Syrian Heritage Archive Project"
-      WORDPRESS_ADMIN_USER_FILE: /run/secrets/shap_wp_admin
+      WORDPRESS_ADMIN_USER: shap-admin
       WORDPRESS_ADMIN_PASSWORD_FILE: /run/secrets/shap_wp_admin_password
-      WORDPRESS_ADMIN_EMAIL_FILE: /run/secrets/shap_wp_admin_email
+      WORDPRESS_ADMIN: philipp.franck@dainst.org
     secrets:
-      - shap_db_host
-      - shap_db_user
       - shap_db_password
-      - shap_wp_url
-      - shap_wp_admin
       - shap_wp_admin_password
-      - shap_wp_admin_email
-      - shap_db_instance
     deploy:
       restart_policy:
         condition: any
@@ -55,27 +46,13 @@ services:
 secrets:
   shap_db_root_password:
     external: true
-  shap_db_instance:
-    external: true
-  shap_db_user:
-    external: true
   shap_db_password:
     external: true
-  shap_db_host:
-    external: true
-  shap_wp_url:
-    external: true
-  shap_wp_admin:
-    external: true
   shap_wp_admin_password:
-    external: true
-  shap_wp_admin_email:
     external: true
 
 volumes:
   wordpress_uploads:
-    external:
-      name: shap_wordpress_uploads
+    name: shap_wordpress_uploads
   wordpress_data:
-    external:
-      name: shap_wordpress_data
+    name: shap_wordpress_data
