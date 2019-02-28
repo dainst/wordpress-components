@@ -3,6 +3,7 @@ version: '3.7'
 services:
   db:
     image: mysql:5.7
+    user: 1000:1000
     ports:
       - "3307:3306"
     volumes:
@@ -34,7 +35,7 @@ services:
       WORDPRESS_SITE_TITLE: "Syrian Heritage Archive Project"
       WORDPRESS_ADMIN_USER: shapinator
       WORDPRESS_ADMIN_PASSWORD_FILE: /run/secrets/shap_wp_admin_password
-      WORDPRESS_ADMIN: philipp.franck@dainst.org
+      WORDPRESS_ADMIN_EMAIL: "philipp.franck@dainst.org"
     secrets:
       - shap_db_password
       - shap_wp_admin_password
