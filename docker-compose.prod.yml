@@ -8,6 +8,8 @@ services:
       - "3307:3306"
     volumes:
       - wordpress_data:/var/lib/mysql
+    networks:
+      - db
     environment:
       MYSQL_DATABASE: shap_wp
       MYSQL_USER: wp_user
@@ -26,6 +28,7 @@ services:
     volumes:
       - wordpress_uploads:/var/www/html/wp-content/uploads
     networks:
+      - db
       - web
     environment:
       WORDPRESS_DB_HOST: shap_db
@@ -67,5 +70,6 @@ volumes:
     name: shap_wordpress_data
 
 networks:
+  db:
   web:
     external: true
