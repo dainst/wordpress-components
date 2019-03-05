@@ -25,6 +25,8 @@ services:
     image: dainst/wordpress-components:latest
     volumes:
       - wordpress_uploads:/var/www/html/wp-content/uploads
+    networks:
+      - web
     environment:
       WORDPRESS_DB_HOST: shap_db
       WORDPRESS_DB_USER: wp_user
@@ -63,3 +65,7 @@ volumes:
     name: shap_wordpress_uploads
   wordpress_data:
     name: shap_wordpress_data
+
+networks:
+  web:
+    external: true
