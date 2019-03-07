@@ -2,6 +2,39 @@
 
 == Changelog ==
 
+= 4.6.1 =
+- replaced Stumbleupon with its successor Mix (thanks to Mark)
+- added an option to hide WhatsApp on desktop devices
+- updated Odnoklassniki API
+- fixed an issue with WPML and some older Shariff setups
+
+= 4.6.0 =
+- new high contrast theme (WCAG)
+- improved support for WPML for easier translation of headlines and info button texts
+- updated WhatsApp share link to support WhatsApp Web (thanks to Oliver, @oliverpw)
+- updated Spanish translations (thanks to Torsten, @torstenbulk)
+- updated Pinterest Share Count API
+- updated VK Share Count API
+- updated Pocket API
+- updated XING API
+- removed GooglePlus due to Google shutting GooglePlus down
+- fixed a PHP notice in regards to Tumblr (thanks to Mario, @mariobartlack)
+- fixed a conflict with another plugin (thanks to David, @daveshine)
+- tested with WordPress 5.1
+
+= 4.5.3 =
+- removed LinkedIn Share Counts due to LinkedIn removing them completely
+- removed GooglePlus Share Counts due to Google shutting GooglePlus down
+- removed OpenShareCount due to the service having shut down
+- removed NewShareCount due to the service having shut down
+- removed Mastodon temporarily until a new working solution is available
+- deprecated GooglePlus as a service, will be removed with the next release
+- added TwitCount (twitcount.com) as an alternative for Twitter share counts
+- updated to Facebook Graph API v3.2
+- updated to WordPress Coding Standards 2.0
+- corrected minor typos
+- added the new logo thanks to Philipp Wildfeuer (@phil_sauvage)
+
 = 4.5.2 =
 - added support for share count requests of multilingual sites
 - updated button translations for Twitter and Pinterest (thanks to Jessica, @jess78)

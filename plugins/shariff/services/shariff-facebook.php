@@ -21,6 +21,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Set the Colors (Hexadecimal including the #).
 	$main_color      = '#3b5998';
 	$secondary_color = '#4273c8';
+	$wcag_color      = '#38548F';
 
 	// SVG icon.
 	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 32"><path fill="' . $main_color . '" d="M17.1 0.2v4.7h-2.8q-1.5 0-2.1 0.6t-0.5 1.9v3.4h5.2l-0.7 5.3h-4.5v13.6h-5.5v-13.6h-4.5v-5.3h4.5v-3.9q0-3.3 1.9-5.2t5-1.8q2.6 0 4.1 0.2z"/></svg>';
@@ -69,7 +70,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		// Create the FB access token.
 		$fb_token = $fb_app_id . '|' . $fb_app_secret;
 		// Use the token to get the share counts.
-		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v3.0/?access_token=' . $fb_token . '&fields=engagement&id=' . $post_url ) ) );
+		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v3.2/?access_token=' . $fb_token . '&fields=engagement&id=' . $post_url ) ) );
 		// Decode the json response.
 		$facebook_json = json_decode( $facebook, true );
 		// Set nofbid in case the page has not yet been crawled by Facebook and no ID is provided.
