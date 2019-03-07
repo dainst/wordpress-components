@@ -40,3 +40,5 @@ will be shared with your running Docker engine.
 
 All local changes to the files in e.g. `./themes/shap-theme` are directly visible within your running Wordpress
 container.
+
+test
