@@ -81,9 +81,9 @@ COPY --chown=www-data:www-data .htaccess /var/www/html/
 # apache config
 RUN { \
     echo "<Directory \"/var/www/html/wp-content/uploads\">"; \
-    echo "  EnableSendfile Off"; \
+    echo "  EnableSendfile On"; \
     echo "</Directory>"; \
-} > /etc/apache2/conf-enabled/EnableSendfile.conf
+} > /etc/apache2/conf-enabled/enable-sendfile.conf
 
 
 
