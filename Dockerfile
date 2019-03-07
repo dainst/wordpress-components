@@ -56,8 +56,8 @@ RUN curl -o /usr/local/bin/wp -O https://raw.githubusercontent.com/wp-cli/builds
 
 #VOLUME /var/www/html
 
-ENV WORDPRESS_VERSION 4.9.8
-ENV WORDPRESS_SHA1 0945bab959cba127531dceb2c4fed81770812b4f
+ENV WORDPRESS_VERSION 5.1
+ENV WORDPRESS_SHA1 830eadf0afa15928d7f6856b1b85bf57b8e1f585
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
