@@ -76,6 +76,17 @@ COPY docker-entrypoint.sh /usr/local/bin/
 
 COPY --chown=www-data:www-data .htaccess /var/www/html/
 
+
+
+# apache config
+RUN { \
+    echo "<Directory \"/var/www/html/wp-content/uploads\">"; \
+    echo "  EnableSendfile Off"; \
+    echo "</Directory>"; \
+} > /etc/apache2/conf-enabled/EnableSendfile.conf
+
+
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
 
