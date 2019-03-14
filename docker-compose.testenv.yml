@@ -11,8 +11,8 @@ services:
     networks:
       - db
     environment:
-      MYSQL_DATABASE: shap_wp
-      MYSQL_USER: wp_user
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/shap_db_root_password
       MYSQL_PASSWORD_FILE: /run/secrets/shap_db_password
     secrets:
@@ -32,13 +32,13 @@ services:
       - web
     environment:
       WORDPRESS_DB_HOST: shap_db
-      WORDPRESS_DB_USER: wp_user
-      WORDPRESS_DB_NAME: shap_wp
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/shap_db_password
       WORDPRESS_CONFIG_EXTRA: "define( 'DISALLOW_FILE_MODS', true );"
       WORDPRESS_SITE_URL: shap.test.idai.world
       WORDPRESS_SITE_TITLE: "Syrian Heritage Archive Project"
-      WORDPRESS_ADMIN_USER: shapinator
+      WORDPRESS_ADMIN_USER: wp_shap_admin
       WORDPRESS_ADMIN_PASSWORD_FILE: /run/secrets/shap_wp_admin_password
       WORDPRESS_ADMIN_EMAIL: "philipp.franck@dainst.org"
     secrets:
