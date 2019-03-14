@@ -86,9 +86,6 @@ volumes:
   wordpress_data:
 
 networks:
-  backend:
-    name: backend
-    external: true
   frontend:
-    name: frontend
+    name: web
     external: true
