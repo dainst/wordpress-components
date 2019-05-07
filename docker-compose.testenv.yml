@@ -23,7 +23,7 @@ services:
         delay: 0s
 
   cms:
-    image: dainst/wordpress-components:latest
+    image: dainst/wordpress-components:0.0.1
     volumes:
       - wordpress_uploads:/var/www/html/wp-content/uploads
     networks:
