@@ -34,7 +34,7 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/shap_db_password
-      WORDPRESS_CONFIG_EXTRA: "define( 'DISALLOW_FILE_MODS', true );"
+      WORDPRESS_CONFIG_EXTRA: "define( 'DISALLOW_FILE_MODS', true ); define('ALLOW_UNFILTERED_UPLOADS', true);"
       WORDPRESS_SITE_URL: shap.test.idai.world
       WORDPRESS_SITE_TITLE: "Syrian Heritage Archive Project"
       WORDPRESS_ADMIN_USER: wp_shap_admin
