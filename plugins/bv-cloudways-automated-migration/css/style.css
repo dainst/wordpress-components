@@ -1,0 +1,170 @@
+body
+{
+	background-color: #f1f1f1;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+a{
+	text-decoration: none;
+}
+label{
+	display: block;
+	color: #222222;
+	padding: 10px 3px;
+	margin-top: 40px;
+	font-size: 14px;
+}
+
+
+
+.pull-wide{
+	float: left;
+	width: 100%;
+}
+
+h1, h2, h3{
+	color: #616366;
+}
+
+p{
+	color: #616366;
+	font-size: 13px;
+}
+
+.header span{
+	float: right;
+}
+
+.header{
+	margin-top: 3rem;
+	border-bottom: #d7d7d7 1px solid;
+	padding-bottom: 15px;
+	width: 95%;
+}
+
+/* .header a img{
+width: 50%;
+} */
+
+h2{
+	font-size: 23px;
+	margin-top: 0;
+	font-weight: 500;
+}
+
+.lft-fold{
+	width: 60%;
+	float: left;
+	padding: 45px 45px 45px 0;    
+}
+
+.lft-fold-txt{
+	width: 100%;
+}
+
+.form-col-6{
+	width:46%;
+	margin-right: 4%;
+	float: left;
+}
+
+input{
+	width: 95%;
+}
+
+input[placeholder]{
+	padding: 5px;
+}
+
+
+.rt-fold{
+	width: 33%;
+	float: left;
+	padding: 45px 0;        
+}
+
+.rt-fold-card{
+	background-color: #fff;
+	padding: 15px 15px 0 15px;
+	border: #d7d7d7 1px solid;;
+}
+
+.rt-fold-card img{
+	width: 100%;
+}
+
+.rt-fold-card .card-hd{
+	background-color: #1941bb;
+	padding: 50px 10px 0 10px;
+}
+
+.rt-fold-card a{
+	text-decoration: underline;
+	color: #5fbbdb;
+}
+
+.footer{
+	border-top: #d7d7d7 1px solid;
+
+}
+
+.footer-button{
+	background-color: #0085ba;
+	padding: 7px 10px;
+	margin: 30px 0;
+	border-color: #0073aa #006799 #006799;
+	box-shadow: 0 1px 0 #006799;
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
+	border-width: 1px;
+	border-radius: 3px; 
+	cursor: pointer;
+	width: 10%; 
+}
+
+.footer-button:hover{
+	background-color: #008ec2;
+}
+form{
+	margin-bottom: 45px;
+}
+.footer a{
+	text-decoration: underline;
+	color: #6cbedb;
+}
+
+@media (max-width: 767px){
+	.rt-fold, .lft-fold{
+		width: 100%;
+	}
+
+	.form-col-6{
+		width: 96%;
+	}
+
+	.footer{
+		border-top: 0; 
+		border-bottom: #d7d7d7 1px solid;  
+		text-align: center;      
+	}
+	.footer button{
+		padding: 10px 20px;
+	}
+	form{margin-bottom: 0;}
+
+}
+
+@media (max-width: 400px){
+	.header span img{
+		width: 75%;
+		float: right;
+	}
+
+	.header span{
+		width: 50%;
+	}
+	.header a img{
+		width: 50%;
+	}
+
+}
